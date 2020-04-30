@@ -437,7 +437,7 @@ function _buildSquel() {
     }, {
       key: '_formatTableName',
       value: function _formatTableName(item) {
-        var shouldQuote = this.options.autoQuoteCapitalizedNames && item.match(/[A-Z]/);
+        var shouldQuote = this.options.autoQuoteCapitalizedNames && !item.match(/[^a-z\d\_]/i) && item.match(/[A-Z]/);
 
         if (this.options.autoQuoteTableNames || shouldQuote) {
           var quoteChar = this.options.nameQuoteCharacter;
@@ -474,7 +474,7 @@ function _buildSquel() {
       value: function _formatFieldName(item) {
         var formattingOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-        var shouldQuote = this.options.autoQuoteCapitalizedNames && item.match(/[A-Z]/);
+        var shouldQuote = this.options.autoQuoteCapitalizedNames && !item.match(/[^a-z\d\_]/i) && item.match(/[A-Z]/);
 
         if (this.options.autoQuoteFieldNames || shouldQuote) {
           var quoteChar = this.options.nameQuoteCharacter;

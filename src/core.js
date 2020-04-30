@@ -357,6 +357,7 @@ function _buildSquel(flavour = null) {
     _formatTableName (item) {
       const shouldQuote = (
         this.options.autoQuoteCapitalizedNames &&
+        !item.match(/[^a-z\d\_]/i) &&
         item.match(/[A-Z]/)
       );
 
@@ -397,6 +398,7 @@ function _buildSquel(flavour = null) {
     _formatFieldName (item, formattingOptions = {}) {
       let shouldQuote = (
         this.options.autoQuoteCapitalizedNames &&
+        !item.match(/[^a-z\d\_]/i) &&
         item.match(/[A-Z]/)
       );
 

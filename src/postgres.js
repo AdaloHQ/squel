@@ -8,6 +8,7 @@ squel.flavours['postgres'] = function(_squel) {
   cls.DefaultQueryBuilderOptions.useAsForTableAliasNames = true;
   cls.DefaultQueryBuilderOptions.nameQuoteCharacter = '"';
   cls.DefaultQueryBuilderOptions.tableAliasQuoteCharacter = '"';
+  cls.DefaultQueryBuilderOptions.autoQuoteCapitalizedNames = true;
 
   cls.PostgresOnConflictKeyUpdateBlock = class extends cls.AbstractSetFieldBlock {
     onConflict (conflictFields, fields) {

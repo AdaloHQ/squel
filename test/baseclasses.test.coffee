@@ -73,6 +73,7 @@ test['Default query builder options'] =
       autoQuoteTableNames: false
       autoQuoteFieldNames: false
       autoQuoteAliasNames: true
+      autoQuoteCapitalizedNames: false,
       useAsForTableAliasNames: false
       nameQuoteCharacter: '`'
       tableAliasQuoteCharacter: '`'

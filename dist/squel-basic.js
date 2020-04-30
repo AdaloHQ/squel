@@ -197,6 +197,8 @@ function _buildSquel() {
     autoQuoteFieldNames: false,
     // If true then alias names will rendered inside quotes. The quote character used is configurable via the `tableAliasQuoteCharacter` and `fieldAliasQuoteCharacter` options.
     autoQuoteAliasNames: true,
+    // Whether to quote capitalized table & field names
+    autoQuoteCapitalizedNames: false,
     // If true then table alias names will rendered after AS keyword.
     useAsForTableAliasNames: false,
     // The quote character used for when quoting table and field names
@@ -435,7 +437,9 @@ function _buildSquel() {
     }, {
       key: '_formatTableName',
       value: function _formatTableName(item) {
-        if (this.options.autoQuoteTableNames) {
+        var shouldQuote = this.options.autoQuoteCapitalizedNames && item.match(/[A-Z]/);
+
+        if (this.options.autoQuoteTableNames || shouldQuote) {
           var quoteChar = this.options.nameQuoteCharacter;
 
           item = '' + quoteChar + item + quoteChar;
@@ -470,7 +474,9 @@ function _buildSquel() {
       value: function _formatFieldName(item) {
         var formattingOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-        if (this.options.autoQuoteFieldNames) {
+        var shouldQuote = this.options.autoQuoteCapitalizedNames && item.match(/[A-Z]/);
+
+        if (this.options.autoQuoteFieldNames || shouldQuote) {
           var quoteChar = this.options.nameQuoteCharacter;
 
           if (formattingOptions.ignorePeriodsForFieldNameQuotes) {
@@ -2976,7 +2982,7 @@ function _buildSquel() {
   }(cls.QueryBuilder);
 
   var _squel = {
-    VERSION: '5.12.2',
+    VERSION: '5.13.0',
     flavour: flavour,
     expr: function expr(options) {
       return new cls.Expression(options);

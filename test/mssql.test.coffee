@@ -143,6 +143,7 @@ test['MSSQL flavour'] =
       autoQuoteTableNames: false
       autoQuoteFieldNames: false
       autoQuoteAliasNames: false
+      autoQuoteCapitalizedNames: false,
       useAsForTableAliasNames: false
       nameQuoteCharacter: '`'
       tableAliasQuoteCharacter: '`'

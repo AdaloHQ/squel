@@ -180,6 +180,17 @@ test['Postgres flavour'] =
             "values": []
           }
 
+      '>> from("Table").where("camelCaseField" = 1)':
+        beforeEach: ->
+          @sel.field('camelCaseField').from('Table1').where('"camelCaseField" = 1')
+        toString: ->
+          assert.same @sel.toString(), 'SELECT "camelCaseField" FROM "Table1" WHERE ("camelCaseField" = 1)'
+        toParam: ->
+          assert.same @sel.toParam(), {
+            "text": 'SELECT "camelCaseField" FROM "Table1" WHERE ("camelCaseField" = 1)'
+            "values": []
+          }
+
       '>> from(table).where(field = ?, 2)':
         beforeEach: ->
           @sel.field('field1').from('table1').where('field1 = ?', 2)
@@ -307,6 +318,7 @@ test['Postgres flavour'] =
       autoQuoteTableNames: false
       autoQuoteFieldNames: false
       autoQuoteAliasNames: false
+      autoQuoteCapitalizedNames: true,
       useAsForTableAliasNames: true
       nameQuoteCharacter: '"'
       tableAliasQuoteCharacter: '"'

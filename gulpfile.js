@@ -74,7 +74,7 @@ gulp.task('build-full', function() {
 });
 
 
-gulp.task('build', ['build-basic', 'build-full']);
+gulp.task('build', gulp.series('build-basic', 'build-full'));
 
 
 gulp.task('pre-test', function () {
@@ -84,7 +84,7 @@ gulp.task('pre-test', function () {
 });
 
 
-gulp.task('test', ['pre-test'], function () {
+gulp.task('test', gulp.series('pre-test', function () {
   return gulp.src(onlyTest || [
       './test/baseclasses.test.coffee',
       './test/blocks.test.coffee',
@@ -108,10 +108,8 @@ gulp.task('test', ['pre-test'], function () {
       }))
       // .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
     ;
-});
+}));
 
 
 
-gulp.task('default', function(cb) {
-  runSequence(['build'], 'test', cb);
-});
+gulp.task('default', gulp.series('build', 'test'));

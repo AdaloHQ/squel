@@ -134,6 +134,8 @@ function _buildSquel(flavour = null) {
     autoQuoteFieldNames: false,
     // If true then alias names will rendered inside quotes. The quote character used is configurable via the `tableAliasQuoteCharacter` and `fieldAliasQuoteCharacter` options.
     autoQuoteAliasNames: true,
+    // Whether to quote capitalized table & field names
+    autoQuoteCapitalizedNames: false,
     // If true then table alias names will rendered after AS keyword.
     useAsForTableAliasNames: false,
     // The quote character used for when quoting table and field names
@@ -161,7 +163,7 @@ function _buildSquel(flavour = null) {
     // Function for formatting string values prior to insertion into query string
     stringFormatter: null,
     // Whether to prevent the addition of brackets () when nesting this query builder's output
-    rawNesting: false
+    rawNesting: false,
   };
 
   // Global custom value handlers for all instances of builder
@@ -353,7 +355,12 @@ function _buildSquel(flavour = null) {
 
 
     _formatTableName (item) {
-      if (this.options.autoQuoteTableNames) {
+      const shouldQuote = (
+        this.options.autoQuoteCapitalizedNames &&
+        item.match(/[A-Z]/)
+      );
+
+      if (this.options.autoQuoteTableNames || shouldQuote) {
         const quoteChar = this.options.nameQuoteCharacter;
 
         item = `${quoteChar}${item}${quoteChar}`;
@@ -388,7 +395,12 @@ function _buildSquel(flavour = null) {
 
 
     _formatFieldName (item, formattingOptions = {}) {
-      if (this.options.autoQuoteFieldNames) {
+      let shouldQuote = (
+        this.options.autoQuoteCapitalizedNames &&
+        item.match(/[A-Z]/)
+      );
+
+      if (this.options.autoQuoteFieldNames || shouldQuote) {
         let quoteChar = this.options.nameQuoteCharacter;
 
         if (formattingOptions.ignorePeriodsForFieldNameQuotes) {
